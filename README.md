@@ -129,7 +129,7 @@ cd network-exporter*
 cd ..
 rm -rf network-exporter-1.0.0.linux-amd64*
 systemctl status network-exporter -l
-curl "http://localhost:9516/metrics?x-token=anonymous"
+curl "http://localhost:9533/metrics?x-token=anonymous"
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)
@@ -262,7 +262,7 @@ make qtest
 For example:
 
 ```bash
-$ curl "http://localhost:9516/metrics?node=ny-sw01&module=cisco_nxos&x-token=anonymous"
+$ curl "http://localhost:9533/metrics?node=ny-sw01&module=cisco_nxos&x-token=anonymous"
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)
@@ -328,7 +328,7 @@ scrape_configs:
       target_label: instance
     - target_label: __address__
       # the exporter's hostname:port
-      replacement: 127.0.0.1:9516
+      replacement: 127.0.0.1:9533
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)
