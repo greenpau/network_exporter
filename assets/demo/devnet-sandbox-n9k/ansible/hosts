@@ -1,0 +1,10 @@
+#
+# DevNet Sandbox Device
+# Sandbox: Open NX-OS with Nexus 9K
+#
+
+[devnet]
+devnet-sw01 os=cisco_nxos host_overwrite=10.10.20.58
+
+[all:vars]
+contact_person=Paul Greenberg @greenpau

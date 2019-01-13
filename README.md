@@ -6,6 +6,7 @@ to Prometheus.
 ## Table of Contents
 
 * [Introduction](#introduction)
+* [Security First](#security-first)
 * [Authentication](#authentication)
 * [Getting Started](#getting-started)
 * [Building From Source](#building-from-source)
@@ -28,6 +29,47 @@ The following is a screenshot for the exporter's `/metrics` page.
 [![Metrics Page](https://raw.githubusercontent.com/greenpau/network_exporter/master/assets/images/exporter_metrics_page.png "Metrics Page")](https://raw.githubusercontent.com/greenpau/network_exporter/master/assets/images/exporter_metrics_page.png)
 
 [:arrow_up: Back to Top](#table-of-contents)
+
+## Security First
+
+By default, the exporter does not allow access to any of its content, unless
+requesters pass authentication token.
+
+The following `curl` to the exporter would result in `403 Forbidden`, because
+the exporter did not find `x-token`, or `x_token`, or `X-Token` in the
+request's header or path:
+
+```
+# curl localhost:9533/
+Forbidden
+```
+
+However, if a requester provides a valid token, the exporter allows access:
+
+```
+curl localhost:9533/?x-token=anonymous
+<html>
+  <head>
+    <title>Prometheus Exporter for Networking</title>
+  </head>
+```
+
+By default, `anonymous` is the default valid token.
+
+An administrator may change the token by providing `-auth.token` argument:
+
+```
+$ network-exporter -h
+
+network-exporter - Prometheus Exporter for Networking
+
+Usage: network-exporter [arguments]
+
+...
+
+  -auth.token string
+        The X-Token for accessing the exporter itself (default "anonymous")
+```
 
 ## Authentication
 
@@ -129,7 +171,7 @@ cd network-exporter*
 cd ..
 rm -rf network-exporter-1.0.0.linux-amd64*
 systemctl status network-exporter -l
-curl "http://localhost:9516/metrics?x-token=anonymous"
+curl "http://localhost:9533/metrics?x-token=anonymous"
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)
@@ -262,7 +304,7 @@ make qtest
 For example:
 
 ```bash
-$ curl "http://localhost:9516/metrics?node=ny-sw01&module=cisco_nxos&x-token=anonymous"
+$ curl "http://localhost:9533/metrics?node=ny-sw01&module=cisco_nxos&x-token=anonymous"
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)
@@ -328,7 +370,7 @@ scrape_configs:
       target_label: instance
     - target_label: __address__
       # the exporter's hostname:port
-      replacement: 127.0.0.1:9516
+      replacement: 127.0.0.1:9533
 ```
 
 [:arrow_up: Back to Top](#table-of-contents)

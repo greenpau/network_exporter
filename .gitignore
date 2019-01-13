@@ -1,0 +1,8 @@
+/.build
+/.release
+/.tarballs
+*.tar.gz
+bin/
+dist/
+vendor/**
+TODO
